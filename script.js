@@ -1,7 +1,11 @@
 const dropdown = document.querySelector('select')
 
+const cardTitle = document.querySelector('.title')
+const cardAuthor = document.querySelectorAll('.author')
+const cardPages = document.querySelectorAll('.pages')
+const cardRead = document.querySelectorAll('.read')
 
-
+selectBook()
 let myLibrary = [];
 
 function Book(title, author, pages, read){
@@ -26,10 +30,20 @@ function addBooksToList(){
     for (i = 0; i < myLibrary.length; i++){
         let newOption = document.createElement('option');
         newOption.className = 'book-entry'
-        newOption.value = myLibrary[i].title
+        newOption.value = myLibrary[i].title.toLowerCase()
         newOption.innerText = myLibrary[i].title
         dropdown.appendChild(newOption)
     }
+}
+
+function selectBook(){
+    eListener = dropdown.addEventListener('change', function(e){
+        for(i = 0; i < myLibrary.length; i++){
+            if(myLibrary[i].title.toLowerCase() == e.target.value){
+                cardTitle.innerText = e.target.value
+            }
+        }
+     });
 }
 
 function clearList(){
@@ -40,3 +54,6 @@ function clearList(){
         }
     }
 }
+
+addBookToLibrary('The Best puppy', 'Amanda Weiskopf', 50000, 'unread')
+addBookToLibrary('The Best kitty', 'Amanda Weiskopf', 50000, 'unread')
