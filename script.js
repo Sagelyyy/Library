@@ -22,78 +22,70 @@ Book.prototype.info = function(){
     return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`
 }
 
-function newCreateForm(count){
+function createForm(){
+    count = 3
     const newEntry = document.createElement('form')
     newEntry.className = 'new-entry-forms'
     container.appendChild(newEntry)
     while(count > 0){
         const titleText = document.createElement('p')
-        titleText.className = 'new-input'
+        titleText.className = 'p-input'
         newEntry.appendChild(titleText)
         const titleForm = document.createElement('input')
         titleForm.className = 'new-input'
         titleForm.id = 'input-field'
         newEntry.appendChild(titleForm)
+        if (count == 1){
+            const readLabel = document.createElement('label')
+            readLabel.setAttribute('for', 'read')
+            newEntry.appendChild(readLabel)
+            readLabel.className = 'new-input'
+            readLabel.innerText = 'Read'
+            const unreadRadio = document.createElement('input')
+            unreadRadio.setAttribute("type", "radio")
+            unreadRadio.setAttribute("name", "read-status")
+            unreadRadio.setAttribute("value", "read")
+            unreadRadio.className = 'read-status'
+            newEntry.appendChild(unreadRadio)
+        }
+        if (count == 1){
+            const unreadLabel = document.createElement('label')
+            unreadLabel.setAttribute('for', 'unread')
+            newEntry.appendChild(unreadLabel)
+            unreadLabel.className = 'new-input'
+            unreadLabel.innerText = 'Unread'
+            const unreadRadio = document.createElement('input')
+            unreadRadio.setAttribute("type", "radio")
+            unreadRadio.setAttribute("name", "read-status")
+            unreadRadio.setAttribute("value", "unread")
+            unreadRadio.className = 'read-status'
+            newEntry.appendChild(unreadRadio)
+            const submitButton = document.createElement('button')
+            submitButton.innerText = "Submit"
+            newEntry.appendChild(submitButton)
+        }
         count--
+    }
+    formSetup('.p-input')
+}
+
+function formSetup(form){
+    let formEntry = document.querySelectorAll(form)
+    for (i = 0; i < formEntry.length; i++){
+        if(formEntry[i].className == 'p-input'){
+            if(formEntry[i] == formEntry[0]){
+                formEntry[i].innerText = 'Title:'
+            }
+            if(formEntry[i] == formEntry[1]){
+                formEntry[i].innerText = 'Author:'
+            }
+            if(formEntry[i] == formEntry[2]){
+                formEntry[i].innerText = 'Page Count:'
+            }  
+        }
     }
 }
 
-function createForm(){
-        const newEntry = document.createElement('form')
-        newEntry.className = 'new-entry-forms'
-        container.appendChild(newEntry)
-        const titleText = document.createElement('p')
-        titleText.className = 'new-input'
-        titleText.innerText = 'Title:'
-        newEntry.appendChild(titleText)
-        const titleForm = document.createElement('input')
-        titleForm.className = 'new-input'
-        titleForm.id = 'input-field'
-        newEntry.appendChild(titleForm)
-        const authorText = document.createElement('p')
-        authorText.className = 'new-input'
-        authorText.innerText = 'Author:'
-        newEntry.appendChild(authorText)
-        const authorForm = document.createElement('input')
-        authorForm.id = 'input-field'
-        authorForm.className = 'new-input'
-        newEntry.appendChild(authorForm)
-        const pagesText = document.createElement('p')
-        pagesText.className = 'new-input'
-        pagesText.innerText = 'Page Count:'
-        newEntry.appendChild(pagesText)
-        const pagesForm = document.createElement('input')
-        pagesForm.id = 'input-field'
-        pagesForm.setAttribute('type', 'number')
-        pagesForm.setAttribute('max', '5000')
-        pagesForm.className = 'new-input'
-        newEntry.appendChild(pagesForm)
-        const readLabel = document.createElement('label')
-        readLabel.setAttribute('for', 'read')
-        newEntry.appendChild(readLabel)
-        readLabel.className = 'new-input'
-        readLabel.innerText = 'Read'
-        const readRadio = document.createElement('input')
-        readRadio.setAttribute("type", "radio")
-        readRadio.setAttribute("name", "read-status")
-        readRadio.className = 'new-input'
-        readRadio.setAttribute("value", "read")
-        newEntry.appendChild(readRadio)
-        const unreadLabel = document.createElement('label')
-        unreadLabel.setAttribute('for', 'unread')
-        newEntry.appendChild(unreadLabel)
-        unreadLabel.className = 'new-input'
-        unreadLabel.innerText = 'Unread'
-        const unreadRadio = document.createElement('input')
-        unreadRadio.setAttribute("type", "radio")
-        unreadRadio.setAttribute("name", "read-status")
-        unreadRadio.className = 'new-input'
-        unreadRadio.setAttribute("value", "unread")
-        newEntry.appendChild(unreadRadio)
-        const submitButton = document.createElement('button')
-        submitButton.innerText = "Submit"
-        newEntry.appendChild(submitButton)
-}
 
 function addBookToLibrary(title, author, pages, read){
     let book = new Book(title, author, pages, read)
