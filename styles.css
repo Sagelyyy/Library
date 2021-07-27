@@ -19,3 +19,11 @@
 select { 
     width: 100%; text-align-last:center; 
 }
+
+#input-field{
+    width: 100%;
+}
+
+input{
+    padding: 4px;
+}
