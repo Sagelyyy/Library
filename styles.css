@@ -1,9 +1,21 @@
 
 .book-container{
+    flex-direction: column;
+    justify-content: center;
     margin-top: 5%;
-    margin-left: 50%;
+    margin-left: 38%;
+    margin-right: 38%;
+    text-align: center;
+    border-color: purple;
+    border-radius: 10px;
+    border-style: solid;
+    padding: 20px;
 }
 
 .title{
     text-transform: capitalize;
+}
+
+select { 
+    width: 100%; text-align-last:center; 
 }
