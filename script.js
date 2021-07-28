@@ -7,10 +7,19 @@ const cardPages = document.querySelector('.pages')
 const cardRead = document.querySelector('.read')
 const newBook = document.querySelector('.new-book')
 newBook.addEventListener("click", createForm)
+const deleteBookBtn = document.querySelector('.delete-book')
+deleteBookBtn.addEventListener("click", deleteBook)
+
+let entryForms = ''
 
 let myVals = []
-let currRadio = ''
+let currRadio = 'unread'
+let myCurrentBook = ''
 let myLibrary = [];
+
+const newEntry = document.createElement('form')
+newEntry.className = 'new-entry-forms'
+container.appendChild(newEntry)
 
 
 
@@ -27,9 +36,6 @@ Book.prototype.info = function(){
 
 function createForm(){
     count = 3
-    const newEntry = document.createElement('form')
-    newEntry.className = 'new-entry-forms'
-    container.appendChild(newEntry)
     while(count > 0){
         const titleText = document.createElement('p')
         titleText.className = 'p-input'
@@ -59,6 +65,7 @@ function createForm(){
             unreadLabel.innerText = 'Unread'
             const unreadRadio = document.createElement('input')
             unreadRadio.className = 'unreadRadio'
+            unreadRadio.setAttribute("checked", "true")
             unreadRadio.setAttribute("type", "radio")
             unreadRadio.setAttribute("value", "unread")
             unreadRadio.setAttribute("name", "newRadio")
@@ -76,6 +83,8 @@ function createForm(){
     }
     formSetup('.p-input')
     formSetup('.new-input')
+    entryForms = document.querySelector('.new-entry-forms')
+
 }
 
 function setRadio(radioVal){
@@ -91,6 +100,7 @@ function submitBook(){
                 myVals[0].value, myVals[1].value, myVals[2].value, currRadio)
         }
     }
+    destroyForms(entryForms)
 }
 
 
@@ -141,6 +151,7 @@ function selectBook(){
     const eListener = dropdown.addEventListener('change', function(e){
         for(i = 0; i < myLibrary.length; i++){
             if(myLibrary[i].title.toLowerCase() == e.target.value){
+                myCurrentBook = e.target.value
                 cardTitle.textContent = e.target.value
                 cardAuthor.textContent = `Author: ${myLibrary[i].author}`
                 cardPages.textContent = `Total Pages: ${parseInt(myLibrary[i].pages)}`
@@ -154,6 +165,21 @@ function clearList(){
     let ddList = document.getElementsByClassName('book-entry')
     while (ddList.length > 0){
         ddList[0].parentNode.removeChild(ddList[0])
+    }
+}
+
+function deleteBook(){
+    for(i=0; i < myLibrary.length; i++){
+        if(myLibrary[i].title.toLowerCase() == myCurrentBook){
+            myLibrary.splice(i, 1)
+        }
+    }
+    addBooksToList()
+}
+
+function destroyForms(parent) {
+    while(parent.firstChild) {
+        parent.removeChild(parent.firstChild)
     }
 }
 
