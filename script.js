@@ -8,8 +8,11 @@ const cardRead = document.querySelector('.read')
 const newBook = document.querySelector('.new-book')
 newBook.addEventListener("click", createForm)
 
-selectBook()
+let myVals = []
+let currRadio = ''
 let myLibrary = [];
+
+
 
 function Book(title, author, pages, read){
     this.title = title
@@ -32,6 +35,7 @@ function createForm(){
         titleText.className = 'p-input'
         newEntry.appendChild(titleText)
         const titleForm = document.createElement('input')
+        titleForm.setAttribute('required', 'true')
         titleForm.className = 'new-input'
         titleForm.id = 'input-field'
         newEntry.appendChild(titleForm)
@@ -39,35 +43,56 @@ function createForm(){
             const readLabel = document.createElement('label')
             readLabel.setAttribute('for', 'read')
             newEntry.appendChild(readLabel)
-            readLabel.className = 'new-input'
             readLabel.innerText = 'Read'
-            const unreadRadio = document.createElement('input')
-            unreadRadio.setAttribute("type", "radio")
-            unreadRadio.setAttribute("name", "read-status")
-            unreadRadio.setAttribute("value", "read")
-            unreadRadio.className = 'read-status'
-            newEntry.appendChild(unreadRadio)
+            const readRadio = document.createElement('input')
+            readRadio.setAttribute("type", "radio")
+            readRadio.setAttribute("value", "read")
+            readRadio.setAttribute("name", "newRadio")
+            readRadio.setAttribute('onclick', 
+            'setRadio("read")')
+            newEntry.appendChild(readRadio)
         }
         if (count == 1){
             const unreadLabel = document.createElement('label')
             unreadLabel.setAttribute('for', 'unread')
             newEntry.appendChild(unreadLabel)
-            unreadLabel.className = 'new-input'
             unreadLabel.innerText = 'Unread'
             const unreadRadio = document.createElement('input')
+            unreadRadio.className = 'unreadRadio'
             unreadRadio.setAttribute("type", "radio")
-            unreadRadio.setAttribute("name", "read-status")
             unreadRadio.setAttribute("value", "unread")
-            unreadRadio.className = 'read-status'
+            unreadRadio.setAttribute("name", "newRadio")
+            unreadRadio.setAttribute('onclick', 
+            'setRadio("unread")')
             newEntry.appendChild(unreadRadio)
             const submitButton = document.createElement('button')
+            submitButton.setAttribute('type', 'button')
+            submitButton.setAttribute('onclick', 'submitBook()')
+            submitButton.id = 'new-book'
             submitButton.innerText = "Submit"
             newEntry.appendChild(submitButton)
         }
         count--
     }
     formSetup('.p-input')
+    formSetup('.new-input')
 }
+
+function setRadio(radioVal){
+    currRadio = radioVal
+}
+
+function submitBook(){
+    myVals =  document.querySelectorAll('.new-input')
+    for(i = 0; i < myVals.length; i++){
+        console.log(myVals[i].value)
+        if(myVals[i].value != ""){
+            addBookToLibrary(
+                myVals[0].value, myVals[1].value, myVals[2].value, currRadio)
+        }
+    }
+}
+
 
 function formSetup(form){
     let formEntry = document.querySelectorAll(form)
@@ -82,6 +107,13 @@ function formSetup(form){
             if(formEntry[i] == formEntry[2]){
                 formEntry[i].innerText = 'Page Count:'
             }  
+        }
+    }
+    for (i = 0; i < formEntry.length; i++){
+        if(formEntry[i].className == 'new-input'){
+            if(formEntry[i] == formEntry[2]){
+                formEntry[i].setAttribute('type', 'number')
+            }
         }
     }
 }
@@ -127,3 +159,4 @@ function clearList(){
 
 addBookToLibrary('The Best Hammy', 'Amanda Luniewicz', 1000, 'unread')
 addBookToLibrary('The Best Pupper', 'Christian Weiskopf', 100, 'read')
+selectBook()
