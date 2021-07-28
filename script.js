@@ -16,12 +16,13 @@ let myVals = []
 let currRadio = 'unread'
 let myCurrentBook = ''
 let myLibrary = [];
+let firstLoad = true
 
 const newEntry = document.createElement('form')
 newEntry.className = 'new-entry-forms'
 container.appendChild(newEntry)
 
-
+//TODO: Add a button to change the books read status!
 
 function Book(title, author, pages, read){
     this.title = title
@@ -94,7 +95,6 @@ function setRadio(radioVal){
 function submitBook(){
     myVals =  document.querySelectorAll('.new-input')
     for(i = 0; i < myVals.length; i++){
-        console.log(myVals[i].value)
         if(myVals[i].value != ""){
             addBookToLibrary(
                 myVals[0].value, myVals[1].value, myVals[2].value, currRadio)
@@ -148,6 +148,14 @@ function addBooksToList(){
 
 
 function selectBook(){
+    if(firstLoad == true){
+        myCurrentBook = myLibrary[0].title
+        cardTitle.textContent = myLibrary[0].title
+        cardAuthor.textContent = `Author: ${myLibrary[0].author}`
+        cardPages.textContent = `Total Pages: ${parseInt(myLibrary[0].pages)}`
+        cardRead.textContent = `Book Status: ${myLibrary[0].read}`
+        firstLoad = false
+    }
     const eListener = dropdown.addEventListener('change', function(e){
         for(i = 0; i < myLibrary.length; i++){
             if(myLibrary[i].title.toLowerCase() == e.target.value){
