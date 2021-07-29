@@ -1,3 +1,11 @@
+let entryForms = ''
+let myVals = []
+let currRadio = 'unread'
+let myCurrentBook = ''
+let myLibrary = [];
+let firstLoad = true
+
+
 const container = document.querySelector('.book-container')
 
 const dropdown = document.querySelector('select')
@@ -5,18 +13,15 @@ const cardTitle = document.querySelector('.title')
 const cardAuthor = document.querySelector('.author')
 const cardPages = document.querySelector('.pages')
 const cardRead = document.querySelector('.read')
+
 const newBook = document.querySelector('.new-book')
 newBook.addEventListener("click", createForm)
 const deleteBookBtn = document.querySelector('.delete-book')
 deleteBookBtn.addEventListener("click", deleteBook)
+const updateBook = document.querySelector('.read-status')
+updateBook.addEventListener("click", updateReadStatus)
 
-let entryForms = ''
 
-let myVals = []
-let currRadio = 'unread'
-let myCurrentBook = ''
-let myLibrary = [];
-let firstLoad = true
 
 const newEntry = document.createElement('form')
 newEntry.className = 'new-entry-forms'
@@ -33,6 +38,30 @@ function Book(title, author, pages, read){
 
 Book.prototype.info = function(){
     return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`
+}
+
+function updateReadStatus(){
+    for(i = 0; i < myLibrary.length; i++){
+        if(myLibrary[i].title.toLowerCase() == myCurrentBook){
+            if(myLibrary[i].read == 'read'){
+                myLibrary[i].read = 'unread'
+            }else if(myLibrary[i].read == 'unread'){
+                myLibrary[i].read = 'read'
+            }
+        }
+    }
+    refreshBook()
+}
+
+function refreshBook(){
+    for(i = 0; i < myLibrary.length; i++){
+        if(myLibrary[i].title.toLowerCase() == myCurrentBook){
+            cardTitle.textContent = myLibrary[i].title
+            cardAuthor.textContent = `Author: ${myLibrary[i].author}`
+            cardPages.textContent = `Total Pages: ${parseInt(myLibrary[i].pages)}`
+            cardRead.textContent = `Book Status: ${myLibrary[i].read}`
+        }
+    }
 }
 
 function createForm(){
@@ -76,7 +105,7 @@ function createForm(){
             const submitButton = document.createElement('button')
             submitButton.setAttribute('type', 'button')
             submitButton.setAttribute('onclick', 'submitBook()')
-            submitButton.id = 'new-book'
+            submitButton.className = 'submit-book'
             submitButton.innerText = "Submit"
             newEntry.appendChild(submitButton)
         }

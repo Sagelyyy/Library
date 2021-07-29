@@ -1,15 +1,89 @@
+body{
+  margin: 0;
+}
+
+body{
+    background-color: #3C3F79;
+    width: 100%;
+}
+
+header{
+    height: 50px;
+    width: 100%;
+    background-color: #828282;
+    border-bottom: solid black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#header-text{
+    margin: 0;
+    font-size: 30px;
+    padding-top: 8px;
+    margin-left: 75px;
+    color: #404040;
+}
+
+button{
+    border: none;
+}
+
+.new-book, .submit-book{
+    background-color: green;
+    font-family: monospace;
+    width: 30%;
+    height: 60px;
+    border-radius: 10px;
+}
+
+.new-book:hover, .submit-book:hover{
+    background-color: darkgreen;
+    border: solid #3C3F79;
+
+}
+
+.read-status{
+    width: 30%;
+    font-family: monospace;
+    height: 60px;
+    background-color: #3C3F79;
+    border-radius: 10px;
+}
+
+.read-status:hover{
+    background-color: #4a50f7;
+    border: solid #3C3F79;
+}
+
+.delete-book{
+    width: 30%;
+    font-family: monospace;
+    height: 60px;
+    background-color: #A6323B;
+    border-radius: 10px;
+}
+
+.delete-book:hover{
+    background-color: #7a2129;
+    border: solid #3C3F79;
+}
+
+.submit-book{
+    width: 100%;
+    height: 60px; 
+    margin-top: 10px;
+
+}
 
 .book-container{
-    flex-direction: column;
     justify-content: center;
-    margin-top: 5%;
+    padding: 20px;
+    margin-top: 2%;
     margin-left: 38%;
     margin-right: 38%;
     text-align: center;
-    border-color: purple;
     border-radius: 10px;
-    border-style: solid;
-    padding: 20px;
+    background-color: #878BFF;
+    box-shadow: 10px 10px 30px black;
 }
 
 .title{
@@ -17,11 +91,20 @@
 }
 
 select { 
-    width: 100%; text-align-last:center; 
+    width: 96%;
+    border-radius: 20px; 
+    text-align-last:center;
+    font-size: 20px;
+    border: none;
+    background-color: #828282;
+}
+
+select:hover{
+    border: solid #3C3F79;
 }
 
 #input-field{
-    width: 100%;
+    width: 96%;
 }
 
 input{
