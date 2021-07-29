@@ -4,6 +4,7 @@ let currRadio = 'unread'
 let myCurrentBook = ''
 let myLibrary = [];
 let firstLoad = true
+let formActive = false
 
 //setup the querySelectors
 const container = document.querySelector('.book-container')
@@ -84,54 +85,57 @@ function refreshBook(){
 
 function createForm(){
     count = 3
-    while(count > 0){
-        const titleText = document.createElement('p')
-        titleText.className = 'p-input'
-        newEntry.appendChild(titleText)
-        const titleForm = document.createElement('input')
-        titleForm.setAttribute('required', 'true')
-        titleForm.className = 'new-input'
-        titleForm.id = 'input-field'
-        newEntry.appendChild(titleForm)
-        if (count == 1){
-            const readLabel = document.createElement('label')
-            readLabel.setAttribute('for', 'read')
-            newEntry.appendChild(readLabel)
-            readLabel.innerText = 'Read'
-            const readRadio = document.createElement('input')
-            readRadio.setAttribute("type", "radio")
-            readRadio.setAttribute("value", "read")
-            readRadio.setAttribute("name", "newRadio")
-            readRadio.setAttribute('onclick', 
-            'setRadio("read")')
-            newEntry.appendChild(readRadio)
+    if(!formActive){
+        while(count > 0){
+            const titleText = document.createElement('p')
+            titleText.className = 'p-input'
+            newEntry.appendChild(titleText)
+            const titleForm = document.createElement('input')
+            titleForm.setAttribute('required', 'true')
+            titleForm.className = 'new-input'
+            titleForm.id = 'input-field'
+            newEntry.appendChild(titleForm)
+            if (count == 1){
+                const readLabel = document.createElement('label')
+                readLabel.setAttribute('for', 'read')
+                newEntry.appendChild(readLabel)
+                readLabel.innerText = 'Read'
+                const readRadio = document.createElement('input')
+                readRadio.setAttribute("type", "radio")
+                readRadio.setAttribute("value", "read")
+                readRadio.setAttribute("name", "newRadio")
+                readRadio.setAttribute('onclick', 
+                'setRadio("read")')
+                newEntry.appendChild(readRadio)
+            }
+            if (count == 1){
+                const unreadLabel = document.createElement('label')
+                unreadLabel.setAttribute('for', 'unread')
+                newEntry.appendChild(unreadLabel)
+                unreadLabel.innerText = 'Unread'
+                const unreadRadio = document.createElement('input')
+                unreadRadio.className = 'unreadRadio'
+                unreadRadio.setAttribute("checked", "true")
+                unreadRadio.setAttribute("type", "radio")
+                unreadRadio.setAttribute("value", "unread")
+                unreadRadio.setAttribute("name", "newRadio")
+                unreadRadio.setAttribute('onclick', 
+                'setRadio("unread")')
+                newEntry.appendChild(unreadRadio)
+                const submitButton = document.createElement('button')
+                submitButton.setAttribute('type', 'button')
+                submitButton.setAttribute('onclick', 'submitBook()')
+                submitButton.className = 'submit-book'
+                submitButton.innerText = "Submit"
+                newEntry.appendChild(submitButton)
+            }
+            count--
         }
-        if (count == 1){
-            const unreadLabel = document.createElement('label')
-            unreadLabel.setAttribute('for', 'unread')
-            newEntry.appendChild(unreadLabel)
-            unreadLabel.innerText = 'Unread'
-            const unreadRadio = document.createElement('input')
-            unreadRadio.className = 'unreadRadio'
-            unreadRadio.setAttribute("checked", "true")
-            unreadRadio.setAttribute("type", "radio")
-            unreadRadio.setAttribute("value", "unread")
-            unreadRadio.setAttribute("name", "newRadio")
-            unreadRadio.setAttribute('onclick', 
-            'setRadio("unread")')
-            newEntry.appendChild(unreadRadio)
-            const submitButton = document.createElement('button')
-            submitButton.setAttribute('type', 'button')
-            submitButton.setAttribute('onclick', 'submitBook()')
-            submitButton.className = 'submit-book'
-            submitButton.innerText = "Submit"
-            newEntry.appendChild(submitButton)
-        }
-        count--
     }
     formSetup('.p-input')
     formSetup('.new-input')
     entryForms = document.querySelector('.new-entry-forms')
+    formActive = true
 
 }
 
@@ -253,6 +257,7 @@ function destroyForms(parent) {
     while(parent.firstChild) {
         parent.removeChild(parent.firstChild)
     }
+    formActive = false
 }
 
 loadFromStorage()
