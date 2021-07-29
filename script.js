@@ -178,7 +178,7 @@ function addBooksToList(){
 
 function selectBook(){
     if(firstLoad == true){
-        myCurrentBook = myLibrary[0].title
+        myCurrentBook = myLibrary[0].title.toLowerCase()
         cardTitle.textContent = myLibrary[0].title
         cardAuthor.textContent = `Author: ${myLibrary[0].author}`
         cardPages.textContent = `Total Pages: ${parseInt(myLibrary[0].pages)}`

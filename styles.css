@@ -23,6 +23,10 @@ header{
     color: #404040;
 }
 
+.label-title{
+    font-weight: bold;
+}
+
 button{
     border: none;
 }
@@ -97,6 +101,8 @@ select {
     font-size: 20px;
     border: none;
     background-color: #828282;
+    margin-top: 10px;
+    padding: 2px;
 }
 
 select:hover{
