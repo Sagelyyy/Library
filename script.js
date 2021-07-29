@@ -5,15 +5,15 @@ let myCurrentBook = ''
 let myLibrary = [];
 let firstLoad = true
 
-
+//setup the querySelectors
 const container = document.querySelector('.book-container')
-
 const dropdown = document.querySelector('select')
 const cardTitle = document.querySelector('.title')
 const cardAuthor = document.querySelector('.author')
 const cardPages = document.querySelector('.pages')
 const cardRead = document.querySelector('.read')
 
+//setup the eventListeners
 const newBook = document.querySelector('.new-book')
 newBook.addEventListener("click", createForm)
 const deleteBookBtn = document.querySelector('.delete-book')
@@ -27,8 +27,6 @@ const newEntry = document.createElement('form')
 newEntry.className = 'new-entry-forms'
 container.appendChild(newEntry)
 
-//TODO: Add a button to change the books read status!
-
 function Book(title, author, pages, read){
     this.title = title
     this.author = author
@@ -36,8 +34,23 @@ function Book(title, author, pages, read){
     this.read = read
 }
 
-Book.prototype.info = function(){
-    return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`
+function saveToStorage(){
+    for(i = 0; i< myLibrary.length;i++){
+        localStorage.setItem('book ' + i, JSON.stringify(myLibrary[i]))
+    }
+}
+
+function loadFromStorage(){
+    if(localStorage.length > 0){
+        for(i = 0; i< localStorage.length; i++){
+            let book = (JSON.parse(localStorage.getItem(localStorage.key(i))))
+            myLibrary.push(book)
+        }
+    }else{
+        addBookToLibrary('The Lord of The Rings', 'J. R. R. Tolkien', 1178, 'read')
+        addBookToLibrary('1984', 'George Orwell', 328, 'unread')
+    }
+    addBooksToList()
 }
 
 function updateReadStatus(){
@@ -58,7 +71,12 @@ function refreshBook(){
         if(myLibrary[i].title.toLowerCase() == myCurrentBook){
             cardTitle.textContent = myLibrary[i].title
             cardAuthor.textContent = `Author: ${myLibrary[i].author}`
-            cardPages.textContent = `Total Pages: ${parseInt(myLibrary[i].pages)}`
+            if(myLibrary[i].pages > 10000){
+                myLibrary[i].pages = 10000
+                cardPages.textContent = `Total Pages: ${parseInt(myLibrary[i].pages)}`
+            }else{
+                cardPages.textContent = `Total Pages: ${parseInt(myLibrary[i].pages)}`
+            }
             cardRead.textContent = `Book Status: ${myLibrary[i].read}`
         }
     }
@@ -130,6 +148,10 @@ function submitBook(){
         }
     }
     destroyForms(entryForms)
+    myCurrentBook = myVals[0].value.toLowerCase()
+    refreshBook()
+    let formUpdate = document.querySelector('#book-selector')
+    formUpdate.value = myCurrentBook
 }
 
 
@@ -152,6 +174,8 @@ function formSetup(form){
         if(formEntry[i].className == 'new-input'){
             if(formEntry[i] == formEntry[2]){
                 formEntry[i].setAttribute('type', 'number')
+                formEntry[i].setAttribute('min', "1")
+                formEntry[i].setAttribute('max', "10000")   
             }
         }
     }
@@ -162,6 +186,7 @@ function addBookToLibrary(title, author, pages, read){
     let book = new Book(title, author, pages, read)
     myLibrary.push(book)
     addBooksToList()
+    saveToStorage()
 }
 
 function addBooksToList(){
@@ -175,8 +200,14 @@ function addBooksToList(){
     }
 }
 
-
 function selectBook(){
+    if(myLibrary.length == 0){
+        cardTitle.textContent = 'No Books in Library'
+        cardAuthor.textContent = ``
+        cardPages.textContent = ``
+        cardRead.textContent = ``
+        return
+    }
     if(firstLoad == true){
         myCurrentBook = myLibrary[0].title.toLowerCase()
         cardTitle.textContent = myLibrary[0].title
@@ -209,9 +240,12 @@ function deleteBook(){
     for(i=0; i < myLibrary.length; i++){
         if(myLibrary[i].title.toLowerCase() == myCurrentBook){
             myLibrary.splice(i, 1)
+            localStorage.removeItem(localStorage.key(i))
         }
     }
     addBooksToList()
+    firstLoad = true
+    selectBook()
 }
 
 function destroyForms(parent) {
@@ -220,6 +254,5 @@ function destroyForms(parent) {
     }
 }
 
-addBookToLibrary('The Best Hammy', 'Amanda Luniewicz', 1000, 'unread')
-addBookToLibrary('The Best Pupper', 'Christian Weiskopf', 100, 'read')
+loadFromStorage()
 selectBook()
