@@ -141,7 +141,7 @@ function setRadio(radioVal){
 
 function submitBook(){
     myVals =  document.querySelectorAll('.new-input')
-    for(i = 0; i < myVals.length; i++){
+    for(i = 0; i < 1; i++){
         if(myVals[i].value != ""){
             addBookToLibrary(
                 myVals[0].value, myVals[1].value, myVals[2].value, currRadio)
@@ -150,6 +150,7 @@ function submitBook(){
     destroyForms(entryForms)
     myCurrentBook = myVals[0].value.toLowerCase()
     refreshBook()
+    myVals = ''
     let formUpdate = document.querySelector('#book-selector')
     formUpdate.value = myCurrentBook
 }
