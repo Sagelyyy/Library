@@ -22,18 +22,20 @@ deleteBookBtn.addEventListener("click", deleteBook)
 const updateBook = document.querySelector('.read-status')
 updateBook.addEventListener("click", updateReadStatus)
 
-
-
 const newEntry = document.createElement('form')
 newEntry.className = 'new-entry-forms'
 container.appendChild(newEntry)
 
-function Book(title, author, pages, read){
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.read = read
+
+class Book {
+    constructor(title, author, pages, read){
+        this.title = title
+        this.author = author
+        this.pages = pages
+        this.read = read
+    }
 }
+
 
 function saveToStorage(){
     for(i = 0; i< myLibrary.length;i++){
