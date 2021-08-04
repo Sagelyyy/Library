@@ -99,10 +99,10 @@ select {
     border-radius: 20px; 
     text-align-last:center;
     font-size: 20px;
-    border: none;
     background-color: #828282;
     margin-top: 10px;
     padding: 2px;
+    border: solid transparent;
 }
 
 select:hover{
