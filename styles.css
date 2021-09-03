@@ -116,3 +116,10 @@ select:hover{
 input{
     padding: 4px;
 }
+
+.error-field{
+    width: 99%;
+    border-radius: 2px;
+    background-color: red;
+    opacity: 0.7;
+}
